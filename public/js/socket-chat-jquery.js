@@ -16,3 +16,10 @@ function renderUsers(person) {
     }
     divUsers.html(html);
 }
+
+divUsers.on('click', 'a', function() {
+    var id = $(this).data('id');
+    if (id) {
+        console.log(id)
+    }
+})
