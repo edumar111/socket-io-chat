@@ -7,7 +7,7 @@ io.on('connection', (client) => {
     console.log('Usuario conectado');
     // Escuchar el cliente
     client.on('loginchat', (user, callback) => {
-        console.log(user)
+        //console.log(user)
         if (!user.name || !user.room) {
             return callback({
                 error: true,
@@ -18,9 +18,9 @@ io.on('connection', (client) => {
         //uniendo a una sala
         client.join(user.room);
 
-        let persons = users.addPerson(client.id, user.name, user.room);
-
-        client.broadcast.emit('listPerson', users.getAllPerson());
+        users.addPerson(client.id, user.name, user.room);
+        let persons = users.getPersonsByRoom(user.room);
+        client.broadcast.to(user.room).emit('listPerson', persons);
 
         return callback(persons);
     });
@@ -28,15 +28,16 @@ io.on('connection', (client) => {
     client.on('createMessage', (data) => {
         let person = users.getPerson(client.id);
         let message = createMessage(person.name, data.message);
-        client.broadcast.emit('createMessage', message);
+        client.broadcast.to(person.room).emit('createMessage', message);
     });
 
     //cuando un cliente se desconecta
     client.on('disconnect', () => {
         console.log('Usuario desconectado');
         let personRemove = users.removePerson(client.id);
-        client.broadcast.emit('createMessage', createMessage('Admin', `${personRemove.name} salió`));
-        client.broadcast.emit('listPerson', users.getAllPerson());
+        console.log(personRemove.room)
+        client.broadcast.to(personRemove.room).emit('createMessage', createMessage('Admin', `${personRemove.name} salió`));
+        client.broadcast.to(personRemove.room).emit('listPerson', users.getPersonsByRoom(personRemove.room));
     });
 
     //escuchando message private
