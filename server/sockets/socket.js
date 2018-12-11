@@ -14,6 +14,9 @@ io.on('connection', (client) => {
         }
         console.log(user);
         let persons = users.addPerson(client.id, user.name);
+
+        client.broadcast.emit('listPerson', users.getAllPerson());
+
         return callback(persons);
     });
 
@@ -22,7 +25,7 @@ io.on('connection', (client) => {
         console.log('Usuario desconectado');
         let personRemove = users.removePerson(client.id);
         client.broadcast.emit('createMessage', { user: 'Administrador', message: `${personRemove.name} abandonó el chat` });
-
+        client.broadcast.emit('listPerson', users.getAllPerson());
     });
 
 

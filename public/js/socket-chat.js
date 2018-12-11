@@ -38,5 +38,10 @@ socket.emit('enviarMensaje', {
 socket.on('createMessage', function(res) {
 
     console.log('Servidor:', res.message);
+});
+//escucha cuando un usuario entra o sale del chat
 
+socket.on('listPerson', function(persons) {
+
+    console.log(persons);
 });
