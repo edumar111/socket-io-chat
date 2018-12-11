@@ -7,14 +7,18 @@ io.on('connection', (client) => {
     console.log('Usuario conectado');
     // Escuchar el cliente
     client.on('loginchat', (user, callback) => {
-        if (!user.name) {
+        console.log(user)
+        if (!user.name || !user.room) {
             return callback({
                 error: true,
-                message: 'el nombre es necesario'
+                message: 'el nombre y sala es necesario'
             })
         }
-        console.log(user);
-        let persons = users.addPerson(client.id, user.name);
+
+        //uniendo a una sala
+        client.join(user.room);
+
+        let persons = users.addPerson(client.id, user.name, user.room);
 
         client.broadcast.emit('listPerson', users.getAllPerson());
 
