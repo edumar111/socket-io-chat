@@ -27,8 +27,7 @@ socket.on('disconnect', function() {
 
 
 // Enviar información
-socket.emit('enviarMensaje', {
-    usuario: 'eduardo',
+socket.emit('createMessage', {
     mensaje: 'Hola Mundo'
 }, function(resp) {
     console.log('respuesta server: ', resp);
@@ -44,4 +43,9 @@ socket.on('createMessage', function(res) {
 socket.on('listPerson', function(persons) {
 
     console.log(persons);
+});
+
+// escuchando message private
+socket.on('messagePrivate', function(message) {
+    console.log('message private', message);
 });

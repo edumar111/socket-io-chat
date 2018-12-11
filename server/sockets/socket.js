@@ -35,6 +35,10 @@ io.on('connection', (client) => {
         client.broadcast.emit('listPerson', users.getAllPerson());
     });
 
-
+    //escuchando message private
+    client.on('messagePrivate', (data) => {
+        let person = users.getPerson(client.id);
+        client.broadcast.to(data.to).emit('messagePrivate', createMessage(person.name, data.message));
+    });
 
 });
