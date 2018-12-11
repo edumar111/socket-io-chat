@@ -28,17 +28,12 @@ socket.on('disconnect', function() {
 });
 
 
-// Enviar información
-socket.emit('createMessage', {
-    mensaje: 'Hola Mundo'
-}, function(resp) {
-    console.log('respuesta server: ', resp);
-});
+
 
 // Escuchar información
-socket.on('createMessage', function(res) {
-
-    console.log('Servidor:', res);
+socket.on('createMessage', function(message) {
+    renderMessages(message);
+    //console.log('Servidor:', message);
 });
 //escucha cuando un usuario entra o sale del chat
 

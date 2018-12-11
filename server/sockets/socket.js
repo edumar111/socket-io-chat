@@ -25,10 +25,11 @@ io.on('connection', (client) => {
         return callback(persons);
     });
     //cuando un cliente envia un mensaje
-    client.on('createMessage', (data) => {
+    client.on('createMessage', (data, callback) => {
         let person = users.getPerson(client.id);
         let message = createMessage(person.name, data.message);
         client.broadcast.to(person.room).emit('createMessage', message);
+        callback(message);
     });
 
     //cuando un cliente se desconecta
