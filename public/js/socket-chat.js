@@ -14,8 +14,9 @@ var user = {
 
 socket.on('connect', function() {
     console.log('Conectado al servidor');
-    socket.emit('loginchat', user, function(res) {
-        console.log('usuarios conectados', res);
+    socket.emit('loginchat', user, function(persons) {
+        console.log('usuarios conectados', persons);
+        renderUsers(persons)
     })
 });
 
@@ -42,7 +43,7 @@ socket.on('createMessage', function(res) {
 //escucha cuando un usuario entra o sale del chat
 
 socket.on('listPerson', function(persons) {
-
+    renderUsers(persons)
     console.log(persons);
 });
 
