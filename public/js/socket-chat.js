@@ -22,17 +22,13 @@ socket.on('connect', function() {
 
 // escuchar
 socket.on('disconnect', function() {
-
     console.log('Perdimos conexión con el servidor');
-
 });
-
-
-
 
 // Escuchar información
 socket.on('createMessage', function(message) {
-    renderMessages(message);
+    renderMessages(message, false);
+    scrollBottom();
     //console.log('Servidor:', message);
 });
 //escucha cuando un usuario entra o sale del chat
